@@ -159,4 +159,4 @@ markdown_extensions:
           case: lower
   - pymdownx.tasklist:
       custom_checkbox: true
-  - pymdownx.tilde 
+  - pymdownx.tilde
