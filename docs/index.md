@@ -1,3 +1,9 @@
+---
+hide:
+  - navigation
+  - toc
+---
+
 # The RISC-V Instruction Set Manual
 ## Volume II: Privileged Architecture
 ### Document Version 20211203
