@@ -3,7 +3,7 @@ site_author: 'Kerim Turak'
 
 repo_name: 'tcore'
 #repo_url: ''
-
+ 
 nav:
     - Home: index.md
     - Tcore:
