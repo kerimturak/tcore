@@ -1,125 +1,51 @@
----
-icon: material/alert-outline
----
+# The RISC-V Instruction Set Manual
+## Volume II: Privileged Architecture
+### Document Version 20211203
 
-# Admonitions
+# Preface
+Bu dökümanda RISC-V Privelege mimarisi açıklanmıştır.
+Versiyon : 20211203
+Aşağıdaki RISC-V ISA modüllerini içerir
 
-Admonitions, also known as _call-outs_, are an excellent choice for including
-side content without significantly interrupting the document flow. Material for
-MkDocs provides several different types of admonitions and allows for the
-inclusion and nesting of arbitrary content.
+![image](https://user-images.githubusercontent.com/68472927/216995802-5efacdce-f22c-44e4-9da5-bbfd4f4f8734.png)
 
-## Configuration
+### Değişiklikler kısmı çevrilmedi
+Added optional big-endian and bi-endian support.
+Made priority of load/store/AMO address-misaligned exceptions implementation-defined relative to load/store/AMO page-fault and access-fault exceptions.
+PMP reset values are now platform-defined.
+ An additional 48 optional PMP registers have been defined.
+ Slightly relaxed the atomicity requirement for A and D bit updates performed by the implementation.
+ Clarify the architectural behavior of address-translation caches.
+ Added Sv57 and Sv57x4 address translation modes.
+ Clarified that bare S-mode need not support the SFENCE.VMA instruction.
+Specified relaxed constraints for implicit reads of non-idempotent regions.
+Added the Svnapot Standard Extension, along with the N bit in Sv39, Sv48, and Sv57 PTEs
+Added the Svpbmt Standard Extension, along with the PBMT bits in Sv39, Sv48, and Sv57 PTEs.
+Added the Svinval Standard Extension and associated instructions.
+Finally, the hypervisor architecture proposal has been extensively revised.
+----------------------------------------------
 
-This configuration enables admonitions, allows to make them collapsible and to
-nest arbitrary content inside admonitions. Add the following lines to
-`mkdocs.yml`:
-
-``` yaml
-markdown_extensions:
-  - admonition
-  - pymdownx.details
-  - pymdownx.superfences
-```
-
-See additional configuration options:
-
-- [Admonition]
-- [Details]
-- [SuperFences]
-
-  [Admonition]: ../setup/extensions/python-markdown.md#admonition
-  [Details]: ../setup/extensions/python-markdown-extensions.md#details
-  [SuperFences]: ../setup/extensions/python-markdown-extensions.md#superfences
-
-### Admonition icons
-
-<!-- md:version 8.3.0 -->
-
-Each of the supported admonition types has a distinct icon, which can be changed
-to any icon bundled with the theme, or even a [custom icon]. Add the following
-lines to `mkdocs.yml`:
-
-``` yaml
-theme:
-  icon:
-    admonition:
-      <type>: <icon> # (1)!
-```
-
-1.  Enter a few keywords to find the perfect icon using our [icon search] and
-    click on the shortcode to copy it to your clipboard:
-
-    <div class="mdx-iconsearch" data-mdx-component="iconsearch">
-      <input class="md-input md-input--stretch mdx-iconsearch__input" placeholder="Search icon" data-mdx-component="iconsearch-query" value="alert" />
-      <div class="mdx-iconsearch-result" data-mdx-component="iconsearch-result" data-mdx-mode="file">
-        <div class="mdx-iconsearch-result__meta"></div>
-        <ol class="mdx-iconsearch-result__list"></ol>
-      </div>
-    </div>
-
-??? example "Expand to show alternate icon sets"
-
-    === ":octicons-mark-github-16: Octicons"
-
-        ``` yaml
-        theme:
-          icon:
-            admonition:
-              note: octicons/tag-16
-              abstract: octicons/checklist-16
-              info: octicons/info-16
-              tip: octicons/squirrel-16
-              success: octicons/check-16
-              question: octicons/question-16
-              warning: octicons/alert-16
-              failure: octicons/x-circle-16
-              danger: octicons/zap-16
-              bug: octicons/bug-16
-              example: octicons/beaker-16
-              quote: octicons/quote-16
-        ```
+# Preface to Version 1.11
+This is version 1.11 of the RISC-V privileged architecture. The document contains the following
+versions of the RISC-V ISA modules:
+![image](https://user-images.githubusercontent.com/68472927/216997984-b180641d-c6e0-4422-b10a-f42cbe8887b0.png)
+versityon 1.10 üzerinde yapılan değişikler
+- The virtual-memory system no longer permits supervisor mode to execute instructions from user pages, regardless of the SUM setting.
+- Clarified that ASIDs are private to a hart, and added commentary about the possibility of a future global-ASID extension.
+- SFENCE.VMA semantics have been clarified.
+- Required all harts in a system to employ the same PTE-update scheme as each other
+- Described scheme for emulating misaligned AMOs.
+- Specified the behavior of the misa and xepc registers in systems with variable IALIGN.
+-  Specified semantics for PMP regions coarser than four bytes.
 
 
-    === ":fontawesome-brands-font-awesome: FontAwesome"
 
-        ``` yaml
-        theme:
-          icon:
-            admonition:
-              note: fontawesome/solid/note-sticky
-              abstract: fontawesome/solid/book
-              info: fontawesome/solid/circle-info
-              tip: fontawesome/solid/bullhorn
-              success: fontawesome/solid/check
-              question: fontawesome/solid/circle-question
-              warning: fontawesome/solid/triangle-exclamation
-              failure: fontawesome/solid/bomb
-              danger: fontawesome/solid/skull
-              bug: fontawesome/solid/robot
-              example: fontawesome/solid/flask
-              quote: fontawesome/solid/quote-left
-        ```
+# Chapter 1
+## Introduction
+Bu döküman RISC-V privelege mimarisini açıklar. Unprivlege modun yanı sıra operating system çalıştırmak ve harici cihazlarla bağlantı sağlamak için ekstra fonsiyonelliklerin eklenmesi gerekmektedir.
 
-  [custom icon]: ../setup/changing-the-logo-and-icons.md#additional-icons
-  [supported types]: #supported-types
-  [icon search]: icons-emojis.md#search
-
-## Usage
-
-Admonitions follow a simple syntax: a block starts with `!!!`, followed by a
-single keyword used as a [type qualifier]. The content of the block follows on
-the next line, indented by four spaces:
-
-``` markdown title="Admonition"
-!!! note
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-```
-
-<div class="result" markdown>
+# 1.1 RISC-V Privileged Software Stack Terminology
+![image](https://user-images.githubusercontent.com/68472927/217001227-aea9b7b6-c0ec-484d-b199-74cbbb3190c0.png)
 
 !!! note
 
@@ -127,379 +53,303 @@ the next line, indented by four spaces:
     nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
     massa, nec semper lorem quam in massa.
 
-</div>
-
-  [type qualifier]: #supported-types
-
-### Changing the title
-
-By default, the title will equal the type qualifier in titlecase. However, it
-can be changed by adding a quoted string containing valid Markdown (including
-links, formatting, ...) after the type qualifier:
-
-``` markdown title="Admonition with custom title"
-!!! note "Phasellus posuere in sem ut cursus"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-```
-
-<div class="result" markdown>
-
-!!! note "Phasellus posuere in sem ut cursus"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-</div>
-
-### Removing the title
-
-Similar to [changing the title], the icon and title can be omitted entirely by
-adding an empty string directly after the type qualifier. Note that this will
-not work for [collapsible blocks]:
-
-``` markdown title="Admonition without title"
-!!! note ""
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-```
-
-<div class="result" markdown>
-
-!!! note ""
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-</div>
-
-  [changing the title]: #changing-the-title
-  [collapsible blocks]: #collapsible-blocks
-
-### Collapsible blocks
-
-When [Details] is enabled and an admonition block is started with `???` instead
-of `!!!`, the admonition is rendered as a collapsible block with a small toggle
-on the right side:
-
-``` markdown title="Admonition, collapsible"
-??? note
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-```
-
-<div class="result" markdown>
-
-??? note
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-</div>
-
-Adding a `+` after the `???` token renders the block expanded:
-
-``` markdown title="Admonition, collapsible and initially expanded"
-???+ note
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-```
-
-<div class="result" markdown>
-
-???+ note
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-</div>
-
-### Inline blocks
-
-Admonitions can also be rendered as inline blocks (e.g., for sidebars), placing
-them to the right using the `inline` + `end` modifiers, or to the left using
-only the `inline` modifier:
-
-=== ":octicons-arrow-right-16: inline end"
-
-    !!! info inline end "Lorem ipsum"
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-    ``` markdown
-    !!! info inline end "Lorem ipsum"
-
-        Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Nulla et euismod nulla.
-        Curabitur feugiat, tortor non consequat
-        finibus, justo purus auctor massa, nec
-        semper lorem quam in massa.
-    ```
-
-    Use `inline end` to align to the right (left for rtl languages).
-
-=== ":octicons-arrow-left-16: inline"
-
-    !!! info inline "Lorem ipsum"
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-    ``` markdown
-    !!! info inline "Lorem ipsum"
-
-        Lorem ipsum dolor sit amet, consectetur
-        adipiscing elit. Nulla et euismod nulla.
-        Curabitur feugiat, tortor non consequat
-        finibus, justo purus auctor massa, nec
-        semper lorem quam in massa.
-    ```
-
-    Use `inline` to align to the left (right for rtl languages).
-
-__Important__: admonitions that use the `inline` modifiers _must_ be declared
-prior to the content block you want to place them beside. If there's
-insufficient space to render the admonition next to the block, the admonition
-will stretch to the full width of the viewport, e.g., on mobile viewports.
-
-### Supported types
-
-Following is a list of type qualifiers provided by Material for MkDocs, whereas
-the default type, and thus fallback for unknown type qualifiers, is `note`[^1]:
-
-  [^1]:
-    Previously, some of the supported types defined more than one qualifier.
-    For example, authors could use `summary` or `tldr` as alternative qualifiers
-    to render an [`abstract`](#type:abstract) admonition. As this increased the
-    size of the CSS that is shipped with Material for MkDocs, the additional
-    type qualifiers are now all deprecated and will be removed in the next major
-    version. This will also be mentioned in the upgrade guide.
-
-<!-- md:option type:note -->
-
-:   !!! note
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:abstract -->
-
-:   !!! abstract
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:info -->
-
-:   !!! info
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:tip -->
-
-:   !!! tip
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:success -->
-
-:   !!! success
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:question -->
-
-:   !!! question
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:warning -->
-
-:   !!! warning
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:failure -->
-
-:   !!! failure
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:danger -->
-
-:   !!! danger
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:bug -->
-
-:   !!! bug
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:example -->
-
-:   !!! example
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-<!-- md:option type:quote -->
-
-:   !!! quote
-
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
-        euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
-        purus auctor massa, nec semper lorem quam in massa.
-
-## Customization
-
-### Classic admonitions
-
-Prior to version <!-- md:version 8.5.6 -->, admonitions had a slightly
-different appearance:
-
-!!! classic "Note"
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
-
-If you want to restore this appearance, add the following CSS to an
-[additional style sheet]:
-
-<style>
-  .md-typeset .admonition.classic {
-    border-width: 0;
-    border-left-width: 4px;
-  }
-</style>
-
-=== ":octicons-file-code-16: `docs/stylesheets/extra.css`"
-
-    ``` css
-    .md-typeset .admonition,
-    .md-typeset details {
-      border-width: 0;
-      border-left-width: 4px;
-    }
-    ```
-
-=== ":octicons-file-code-16: `mkdocs.yml`"
-
-    ``` yaml
-    extra_css:
-      - stylesheets/extra.css
-    ```
-
-### Custom admonitions
-
-If you want to add a custom admonition type, all you need is a color and an
-`*.svg` icon. Copy the icon's code from the [`.icons`][custom icons] folder
-and add the following CSS to an [additional style sheet]:
-
-<style>
-  :root {
-    --md-admonition-icon--pied-piper: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M244 246c-3.2-2-6.3-2.9-10.1-2.9-6.6 0-12.6 3.2-19.3 3.7l1.7 4.9zm135.9 197.9c-19 0-64.1 9.5-79.9 19.8l6.9 45.1c35.7 6.1 70.1 3.6 106-9.8-4.8-10-23.5-55.1-33-55.1zM340.8 177c6.6 2.8 11.5 9.2 22.7 22.1 2-1.4 7.5-5.2 7.5-8.6 0-4.9-11.8-13.2-13.2-23 11.2-5.7 25.2-6 37.6-8.9 68.1-16.4 116.3-52.9 146.8-116.7C548.3 29.3 554 16.1 554.6 2l-2 2.6c-28.4 50-33 63.2-81.3 100-31.9 24.4-69.2 40.2-106.6 54.6l-6.3-.3v-21.8c-19.6 1.6-19.7-14.6-31.6-23-18.7 20.6-31.6 40.8-58.9 51.1-12.7 4.8-19.6 10-25.9 21.8 34.9-16.4 91.2-13.5 98.8-10zM555.5 0l-.6 1.1-.3.9.6-.6zm-59.2 382.1c-33.9-56.9-75.3-118.4-150-115.5l-.3-6c-1.1-13.5 32.8 3.2 35.1-31l-14.4 7.2c-19.8-45.7-8.6-54.3-65.5-54.3-14.7 0-26.7 1.7-41.4 4.6 2.9 18.6 2.2 36.7-10.9 50.3l19.5 5.5c-1.7 3.2-2.9 6.3-2.9 9.8 0 21 42.8 2.9 42.8 33.6 0 18.4-36.8 60.1-54.9 60.1-8 0-53.7-50-53.4-60.1l.3-4.6 52.3-11.5c13-2.6 12.3-22.7-2.9-22.7-3.7 0-43.1 9.2-49.4 10.6-2-5.2-7.5-14.1-13.8-14.1-3.2 0-6.3 3.2-9.5 4-9.2 2.6-31 2.9-21.5 20.1L15.9 298.5c-5.5 1.1-8.9 6.3-8.9 11.8 0 6 5.5 10.9 11.5 10.9 8 0 131.3-28.4 147.4-32.2 2.6 3.2 4.6 6.3 7.8 8.6 20.1 14.4 59.8 85.9 76.4 85.9 24.1 0 58-22.4 71.3-41.9 3.2-4.3 6.9-7.5 12.4-6.9.6 13.8-31.6 34.2-33 43.7-1.4 10.2-1 35.2-.3 41.1 26.7 8.1 52-3.6 77.9-2.9 4.3-21 10.6-41.9 9.8-63.5l-.3-9.5c-1.4-34.2-10.9-38.5-34.8-58.6-1.1-1.1-2.6-2.6-3.7-4 2.2-1.4 1.1-1 4.6-1.7 88.5 0 56.3 183.6 111.5 229.9 33.1-15 72.5-27.9 103.5-47.2-29-25.6-52.6-45.7-72.7-79.9zm-196.2 46.1v27.2l11.8-3.4-2.9-23.8zm-68.7-150.4l24.1 61.2 21-13.8-31.3-50.9zm84.4 154.9l2 12.4c9-1.5 58.4-6.6 58.4-14.1 0-1.4-.6-3.2-.9-4.6-26.8 0-36.9 3.8-59.5 6.3z"/></svg>')
-  }
-  .md-typeset .admonition.pied-piper,
-  .md-typeset details.pied-piper {
-    border-color: rgb(43, 155, 70);
-  }
-  .md-typeset .pied-piper > .admonition-title,
-  .md-typeset .pied-piper > summary {
-    background-color: rgba(43, 155, 70, 0.1);
-  }
-  .md-typeset .pied-piper > .admonition-title::before,
-  .md-typeset .pied-piper > summary::before {
-    background-color: rgb(43, 155, 70);
-    -webkit-mask-image: var(--md-admonition-icon--pied-piper);
-            mask-image: var(--md-admonition-icon--pied-piper);
-  }
-</style>
-
-=== ":octicons-file-code-16: `docs/stylesheets/extra.css`"
-
-    ``` css
-    :root {
-      --md-admonition-icon--pied-piper: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M244 246c-3.2-2-6.3-2.9-10.1-2.9-6.6 0-12.6 3.2-19.3 3.7l1.7 4.9zm135.9 197.9c-19 0-64.1 9.5-79.9 19.8l6.9 45.1c35.7 6.1 70.1 3.6 106-9.8-4.8-10-23.5-55.1-33-55.1zM340.8 177c6.6 2.8 11.5 9.2 22.7 22.1 2-1.4 7.5-5.2 7.5-8.6 0-4.9-11.8-13.2-13.2-23 11.2-5.7 25.2-6 37.6-8.9 68.1-16.4 116.3-52.9 146.8-116.7C548.3 29.3 554 16.1 554.6 2l-2 2.6c-28.4 50-33 63.2-81.3 100-31.9 24.4-69.2 40.2-106.6 54.6l-6.3-.3v-21.8c-19.6 1.6-19.7-14.6-31.6-23-18.7 20.6-31.6 40.8-58.9 51.1-12.7 4.8-19.6 10-25.9 21.8 34.9-16.4 91.2-13.5 98.8-10zM555.5 0l-.6 1.1-.3.9.6-.6zm-59.2 382.1c-33.9-56.9-75.3-118.4-150-115.5l-.3-6c-1.1-13.5 32.8 3.2 35.1-31l-14.4 7.2c-19.8-45.7-8.6-54.3-65.5-54.3-14.7 0-26.7 1.7-41.4 4.6 2.9 18.6 2.2 36.7-10.9 50.3l19.5 5.5c-1.7 3.2-2.9 6.3-2.9 9.8 0 21 42.8 2.9 42.8 33.6 0 18.4-36.8 60.1-54.9 60.1-8 0-53.7-50-53.4-60.1l.3-4.6 52.3-11.5c13-2.6 12.3-22.7-2.9-22.7-3.7 0-43.1 9.2-49.4 10.6-2-5.2-7.5-14.1-13.8-14.1-3.2 0-6.3 3.2-9.5 4-9.2 2.6-31 2.9-21.5 20.1L15.9 298.5c-5.5 1.1-8.9 6.3-8.9 11.8 0 6 5.5 10.9 11.5 10.9 8 0 131.3-28.4 147.4-32.2 2.6 3.2 4.6 6.3 7.8 8.6 20.1 14.4 59.8 85.9 76.4 85.9 24.1 0 58-22.4 71.3-41.9 3.2-4.3 6.9-7.5 12.4-6.9.6 13.8-31.6 34.2-33 43.7-1.4 10.2-1 35.2-.3 41.1 26.7 8.1 52-3.6 77.9-2.9 4.3-21 10.6-41.9 9.8-63.5l-.3-9.5c-1.4-34.2-10.9-38.5-34.8-58.6-1.1-1.1-2.6-2.6-3.7-4 2.2-1.4 1.1-1 4.6-1.7 88.5 0 56.3 183.6 111.5 229.9 33.1-15 72.5-27.9 103.5-47.2-29-25.6-52.6-45.7-72.7-79.9zm-196.2 46.1v27.2l11.8-3.4-2.9-23.8zm-68.7-150.4l24.1 61.2 21-13.8-31.3-50.9zm84.4 154.9l2 12.4c9-1.5 58.4-6.6 58.4-14.1 0-1.4-.6-3.2-.9-4.6-26.8 0-36.9 3.8-59.5 6.3z"/></svg>')
-    }
-    .md-typeset .admonition.pied-piper,
-    .md-typeset details.pied-piper {
-      border-color: rgb(43, 155, 70);
-    }
-    .md-typeset .pied-piper > .admonition-title,
-    .md-typeset .pied-piper > summary {
-      background-color: rgba(43, 155, 70, 0.1);
-    }
-    .md-typeset .pied-piper > .admonition-title::before,
-    .md-typeset .pied-piper > summary::before {
-      background-color: rgb(43, 155, 70);
-      -webkit-mask-image: var(--md-admonition-icon--pied-piper);
-              mask-image: var(--md-admonition-icon--pied-piper);
-    }
-    ```
-
-=== ":octicons-file-code-16: `mkdocs.yml`"
-
-    ``` yaml
-    extra_css:
-      - stylesheets/extra.css
-    ```
-
-After applying the customization, you can use the custom admonition type:
-
-``` markdown title="Admonition with custom type"
 !!! pied-piper "Pied Piper"
 
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
     euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
     purus auctor massa, nec semper lorem quam in massa.
+
+[Subscribe to our newsletter](#){ .md-button }
+
+
+
+
+``` systemverilog
+`timescale 1ns/ 100 ps
+
+module FIFO_v #(parameter ADDR_W = 4, DATA_W = 24, BUFF_L = 16, ALMST_F = 3, ALMST_E = 3) 	// buffer length must be less than or equal to address space as in  BUFF_L <or= 2^(ADDR_W)-1
+			(
+			output reg 		[DATA_W- 1	:	0]				data_out,
+			output reg 		[ADDR_W		:	0]				data_count,
+			output	reg															empty,
+			output	reg															full,
+			output	reg															almst_empty,
+			output	reg															almst_full,
+			output	reg															err,
+			input		wire	[DATA_W -1	:	0]				data_in,
+			input		wire														wr_en,
+			input		wire														rd_en,
+			input		wire 														n_reset,
+			input		wire														clk
+			);
+			
+			
+////--------------- internal variables ---------------------------------------------------------			
+			
+			reg 				[DATA_W-1 : 0] 	mem_array [0 : (2**ADDR_W)-1];
+			reg					[ADDR_W-1 : 0]	rd_ptr, wr_ptr;
+			reg					[ADDR_W-1 : 0]	rd_ptr_nxt, wr_ptr_nxt;
+			reg														full_ff, empty_ff;
+			reg														full_ff_nxt, empty_ff_nxt;
+			reg														almst_f_ff, almst_e_ff;
+			reg														almst_f_ff_nxt, almst_e_ff_nxt;
+			reg					[ADDR_W : 0]		q_reg, q_nxt;
+			reg														q_add, q_sub;
+//// ------------------------------------------------------------------------------------------------
+
+
+//// Always block to update the states
+//// ------------------------------------------------------------------------------------------------
+	always @ (posedge clk)
+		begin	:	reg_update
+			if(n_reset == 1'b 0)
+				begin
+					rd_ptr <= {(ADDR_W-1){1'b 0}};
+					wr_ptr <= {(ADDR_W-1){1'b 0}};
+					full_ff <= 1'b 0;
+					empty_ff <= 1'b 1;
+					almst_f_ff <= 1'b 0;
+					almst_e_ff <= 1'b 1;
+					q_reg <= {(ADDR_W){1'b 0}};
+				end
+			else
+				begin
+					rd_ptr <= rd_ptr_nxt;
+					wr_ptr <= wr_ptr_nxt;
+					full_ff <= full_ff_nxt;
+					empty_ff <= empty_ff_nxt;
+					almst_f_ff <= almst_f_ff_nxt;
+					almst_e_ff <= almst_e_ff_nxt;
+					q_reg <= q_nxt;
+				 end
+		end	// end of always
+
+//// Control for almost full and almost emptly flags
+//// ------------------------------------------------------------------------------------------------
+	always @ ( almst_e_ff, almst_f_ff, q_reg)
+		begin	:	Wtr_Mrk_Cont
+			almst_e_ff_nxt = almst_e_ff;
+			almst_f_ff_nxt = almst_f_ff;				
+		   //// check to see if wr_ptr is ALMST_E away from rd_ptr (aka almost empty)			
+			if(q_reg < ALMST_E)
+				almst_e_ff_nxt = 1'b 1;
+			else
+				almst_e_ff_nxt = 1'b 0;
+
+			if(q_reg > BUFF_L-ALMST_F)
+				almst_f_ff_nxt = 1'b 1;
+			else
+				almst_f_ff_nxt = 1'b 0;
+				
+		end	// end of always
+			
+//// Control for read and write pointers and empty/full flip flops			
+	always @ (wr_en, rd_en, wr_ptr, rd_ptr, empty_ff, full_ff, q_reg)
+		begin
+			
+			wr_ptr_nxt = wr_ptr ;											//// no change to pointers
+			rd_ptr_nxt = rd_ptr;
+			full_ff_nxt = full_ff;
+			empty_ff_nxt = empty_ff;
+			q_add = 1'b 0;
+			q_sub = 1'b 0;
+		////---------- check if fifo is full during a write attempt, after a write increment counter
+		////----------------------------------------------------			
+			if(wr_en == 1'b 1 & rd_en == 1'b 0)
+				begin
+					if(full_ff == 1'b 0)
+						begin
+							if(wr_ptr < BUFF_L-1)									
+								begin
+									q_add = 1'b 1;
+									wr_ptr_nxt = wr_ptr + 1;
+									empty_ff_nxt = 1'b 0;
+								end
+							else
+								begin
+									wr_ptr_nxt = {(ADDR_W-1){1'b 0}};
+									empty_ff_nxt = 1'b 0;
+								end
+							//// check if fifo is full
+							if( (wr_ptr+1 == rd_ptr) || ((wr_ptr == BUFF_L-1) && (rd_ptr == 1'b 0)))   
+								full_ff_nxt = 1'b 1;
+						end
+				end
+					
+		////---------- check to see if fifo is empty during a read attempt, after a read decrement counter
+		////---------------------------------------------------------------
+			if( (wr_en == 1'b 0) && (rd_en == 1'b 1))
+				begin					
+					if(empty_ff == 1'b 0) 
+						begin
+							if(rd_ptr < BUFF_L-1 )													
+								begin
+									if(q_reg > 0)
+										q_sub = 1'b 1;
+									else
+										q_sub = 1'b 0;
+									rd_ptr_nxt = rd_ptr + 1;
+									full_ff_nxt = 1'b 0;
+								end
+							else	
+								begin
+									rd_ptr_nxt = {(ADDR_W-1){1'b 0}}; 
+									full_ff_nxt = 1'b 0;		
+								end
+			
+							//// check if fifo is empty
+							if( (rd_ptr  + 1 == wr_ptr) || ((rd_ptr == BUFF_L -1) && (wr_ptr == 1'b 0 )))  
+								empty_ff_nxt = 1'b 1;
+						end
+				end
+			
+		//// -----------------------------------------------------------------
+			if( (wr_en == 1'b 1) && (rd_en == 1'b 1)) 
+				begin
+					if(wr_ptr < BUFF_L -1) 
+						wr_ptr_nxt = wr_ptr  + 1;	
+					else											
+						wr_ptr_nxt =  {(ADDR_W-1){1'b 0}}; 
+					
+					if(rd_ptr < BUFF_L -1) 
+						rd_ptr_nxt = rd_ptr + 1;		
+					else
+						rd_ptr_nxt = {(ADDR_W-1){1'b 0}}; 
+				end
+			
+		end  // end of always
+
+
+//// Control for memory array writing and reading
+//// ----------------------------------------------------------------------
+	always @ (posedge clk)
+		begin		:		mem_cont
+			if( n_reset == 1'b 0)
+				begin
+					mem_array[rd_ptr] <=  {(DATA_W-1){1'b 0}}; 
+					data_out <= {(DATA_W-1){1'b 0}}; 
+					err <= 1'b 0;
+				end
+			else
+				begin
+					////  if write enable and not full then latch in data and increment wright pointer	
+					if( (wr_en == 1'b 1) && (full_ff == 1'b 0) )
+						begin
+							mem_array[wr_ptr] <=  data_in;
+							err <= 1'b 0;						
+						end
+					else if( (wr_en == 1'b 1) && (full_ff == 1'b 1))      ////  check if full and trying to write
+						err <= 1'b 1;
+						
+					//// if read enable and fifo not empty then latch data out and increment read pointer
+					if( (rd_en == 1'b 1) && (empty_ff == 1'b 0))
+						begin
+							data_out <= mem_array[rd_ptr];
+							err <= 1'b 0;
+						end
+					else if( (rd_en == 1'b 1) && (empty_ff == 1'b 1))
+						err <= 1'b 1;
+						
+				end	// end else
+		end	// end always
+						
+			
+//// Combo Counter with Control Flags
+//// ------------------------------------------------------------------------------------------------
+	always @ ( q_sub, q_add, q_reg)
+		begin	:	Counter
+			case( {q_sub , q_add} )
+				2'b 01 :
+						q_nxt = q_reg + 1;
+				2'b 10 :
+						q_nxt = q_reg - 1;
+				default :
+						q_nxt = q_reg;
+			endcase 	
+		end	// end of always		
+			
+//// Connect internal regs to ouput ports
+//// ------------------------------------------------------------------------------------------------
+	always @ (full_ff, empty_ff, almst_e_ff, almst_f_ff, q_reg)
+		begin
+			full = full_ff;
+			empty = empty_ff;
+			almst_empty = almst_e_ff; 
+			almst_full = almst_f_ff;
+			data_count = q_reg;
+		end
+			
+endmodule
+
+
 ```
 
-<div class="result" markdown>
+1.  :man_raising_hand: I'm a code annotation! I can contain `code`, __formatted
+    text__, images, ... basically anything that can be written in Markdown.
 
-!!! pied-piper "Pied Piper"
 
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
-    nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
-    massa, nec semper lorem quam in massa.
+``` mermaid
+graph LR
+  A[Start] --> B{Error?};
+  B -->|Yes| C[Hmm...];
+  C --> D[Debug];
+  D --> B;
+  B ---->|No| E[Yay!];
+```
+
+
+Text can be {--deleted--} and replacement text {++added++}. This can also be
+combined into {~~one~>a single~~} operation. {==Highlighting==} is also
+possible {>>and comments can be added inline<<}.
+
+{==
+
+Formatting can also be applied to blocks by putting the opening and closing
+tags on separate lines and adding new lines between the tags and the content.
+
+==}
+
+<div class="grid cards" markdown>
+
+-   :material-clock-fast:{ .lg .middle } __Set up in 5 minutes__
+
+    ---
+
+    Install [`mkdocs-material`](#) with [`pip`](#) and get up
+    and running in minutes
+
+    [:octicons-arrow-right-24: Getting started](#)
+
+-   :fontawesome-brands-markdown:{ .lg .middle } __It's just Markdown__
+
+    ---
+
+    Focus on your content and generate a responsive and searchable static site
+
+    [:octicons-arrow-right-24: Reference](#)
+
+-   :material-format-font:{ .lg .middle } __Made to measure__
+
+    ---
+
+    Change the colors, fonts, language, icons, logo and more with a few lines
+
+    [:octicons-arrow-right-24: Customization](#)
+
+-   :material-scale-balance:{ .lg .middle } __Open Source, MIT__
+
+    ---
+
+    Material for MkDocs is licensed under MIT and available on [GitHub]
+
+    [:octicons-arrow-right-24: License](#)
 
 </div>
 
-  [custom icons]: https://github.com/squidfunk/mkdocs-material/tree/master/material/templates/.icons
-  [additional style sheet]: ../customization.md#additional-css
+
+:smile:
+
+
+$$
+\operatorname{ker} f=\{g\in G:f(g)=e_{H}\}{\mbox{.}}
+$$
