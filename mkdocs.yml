@@ -29,6 +29,7 @@ nav:
           RAM: ram/ram.md
           Testbench: tb/testbench.md
           Wrapper: wrapper/wrapper.md
+    - Git: git/git.md
 
 theme:
   language: en
