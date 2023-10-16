@@ -1,0 +1,1247 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Kerim Turak">
+      
+      
+      
+      
+        <link rel="next" href="core/cpu/">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
+    
+    
+      
+        <title>TCORE</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.35e1ed30.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-risc-v-instruction-set-manual" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="TCORE" class="md-header__button md-logo" aria-label="TCORE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TCORE
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="core/cpu/" class="md-tabs__link">
+          
+  
+  Tcore
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="git/git/" class="md-tabs__link">
+        
+  
+    
+  
+  Git
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="TCORE" class="md-nav__button md-logo" aria-label="TCORE" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    TCORE
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#volume-ii-privileged-architecture" class="md-nav__link">
+    Volume II: Privileged Architecture
+  </a>
+  
+    <nav class="md-nav" aria-label="Volume II: Privileged Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#document-version-20211203" class="md-nav__link">
+    Document Version 20211203
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Tcore
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Tcore
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Core
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Core
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="core/cpu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cpu
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="alu/division/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Arithmetic Logic Unit
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="core/compressed_decoder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Compressed Decoder
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="core/compressed_decoder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Control Unit
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="core/extend/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Immediate Entend
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="core/hazard_unit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hazard Unit
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="core/memory_arbiter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memory Arbiter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="core/reg_file/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Register File
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="cache/l0_cacahe/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Cache
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="bus/bus/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bus
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="peripherial/uart/" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Peripherial
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pkg/parameters/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Package
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ram/ram/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RAM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tb/testbench/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Testbench
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="wrapper/wrapper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Wrapper
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="git/git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="the-risc-v-instruction-set-manual">The RISC-V Instruction Set Manual<a class="headerlink" href="#the-risc-v-instruction-set-manual" title="Permanent link">&para;</a></h1>
+<h2 id="volume-ii-privileged-architecture">Volume II: Privileged Architecture<a class="headerlink" href="#volume-ii-privileged-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="document-version-20211203">Document Version 20211203<a class="headerlink" href="#document-version-20211203" title="Permanent link">&para;</a></h3>
+<h1 id="preface">Preface<a class="headerlink" href="#preface" title="Permanent link">&para;</a></h1>
+<p>Bu dökümanda RISC-V Privelege mimarisi açıklanmıştır.
+Versiyon : 20211203
+Aşağıdaki RISC-V ISA modüllerini içerir</p>
+<p><img alt="image" src="https://user-images.githubusercontent.com/68472927/216995802-5efacdce-f22c-44e4-9da5-bbfd4f4f8734.png" /></p>
+<h3 id="degisiklikler-ksm-cevrilmedi">Değişiklikler kısmı çevrilmedi<a class="headerlink" href="#degisiklikler-ksm-cevrilmedi" title="Permanent link">&para;</a></h3>
+<p>Added optional big-endian and bi-endian support.
+Made priority of load/store/AMO address-misaligned exceptions implementation-defined relative to load/store/AMO page-fault and access-fault exceptions.
+PMP reset values are now platform-defined.
+ An additional 48 optional PMP registers have been defined.
+ Slightly relaxed the atomicity requirement for A and D bit updates performed by the implementation.
+ Clarify the architectural behavior of address-translation caches.
+ Added Sv57 and Sv57x4 address translation modes.
+ Clarified that bare S-mode need not support the SFENCE.VMA instruction.
+Specified relaxed constraints for implicit reads of non-idempotent regions.
+Added the Svnapot Standard Extension, along with the N bit in Sv39, Sv48, and Sv57 PTEs
+Added the Svpbmt Standard Extension, along with the PBMT bits in Sv39, Sv48, and Sv57 PTEs.
+Added the Svinval Standard Extension and associated instructions.
+Finally, the hypervisor architecture proposal has been extensively revised.</p>
+<hr />
+<h1 id="preface-to-version-111">Preface to Version 1.11<a class="headerlink" href="#preface-to-version-111" title="Permanent link">&para;</a></h1>
+<p>This is version 1.11 of the RISC-V privileged architecture. The document contains the following
+versions of the RISC-V ISA modules:
+<img alt="image" src="https://user-images.githubusercontent.com/68472927/216997984-b180641d-c6e0-4422-b10a-f42cbe8887b0.png" />
+versityon 1.10 üzerinde yapılan değişikler
+- The virtual-memory system no longer permits supervisor mode to execute instructions from user pages, regardless of the SUM setting.
+- Clarified that ASIDs are private to a hart, and added commentary about the possibility of a future global-ASID extension.
+- SFENCE.VMA semantics have been clarified.
+- Required all harts in a system to employ the same PTE-update scheme as each other
+- Described scheme for emulating misaligned AMOs.
+- Specified the behavior of the misa and xepc registers in systems with variable IALIGN.
+-  Specified semantics for PMP regions coarser than four bytes.</p>
+<h1 id="chapter-1">Chapter 1<a class="headerlink" href="#chapter-1" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Bu döküman RISC-V privelege mimarisini açıklar. Unprivlege modun yanı sıra operating system çalıştırmak ve harici cihazlarla bağlantı sağlamak için ekstra fonsiyonelliklerin eklenmesi gerekmektedir.</p>
+<h1 id="11-risc-v-privileged-software-stack-terminology">1.1 RISC-V Privileged Software Stack Terminology<a class="headerlink" href="#11-risc-v-privileged-software-stack-terminology" title="Permanent link">&para;</a></h1>
+<p><img alt="image" src="https://user-images.githubusercontent.com/68472927/217001227-aea9b7b6-c0ec-484d-b199-74cbbb3190c0.png" /></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et euismod
+nulla. Curabitur feugiat, tortor non consequat finibus, justo purus auctor
+massa, nec semper lorem quam in massa.</p>
+</div>
+<div class="admonition pied-piper">
+<p class="admonition-title">Pied Piper</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et
+euismod nulla. Curabitur feugiat, tortor non consequat finibus, justo
+purus auctor massa, nec semper lorem quam in massa.</p>
+</div>
+<p><a class="md-button" href="#">Subscribe to our newsletter</a></p>
+<pre><code class="language-systemverilog">`timescale 1ns/ 100 ps
+
+module FIFO_v #(parameter ADDR_W = 4, DATA_W = 24, BUFF_L = 16, ALMST_F = 3, ALMST_E = 3)   // buffer length must be less than or equal to address space as in  BUFF_L &lt;or= 2^(ADDR_W)-1
+            (
+            output reg      [DATA_W- 1  :   0]              data_out,
+            output reg      [ADDR_W     :   0]              data_count,
+            output  reg                                                         empty,
+            output  reg                                                         full,
+            output  reg                                                         almst_empty,
+            output  reg                                                         almst_full,
+            output  reg                                                         err,
+            input       wire    [DATA_W -1  :   0]              data_in,
+            input       wire                                                        wr_en,
+            input       wire                                                        rd_en,
+            input       wire                                                        n_reset,
+            input       wire                                                        clk
+            );
+
+
+////--------------- internal variables ---------------------------------------------------------            
+
+            reg                 [DATA_W-1 : 0]  mem_array [0 : (2**ADDR_W)-1];
+            reg                 [ADDR_W-1 : 0]  rd_ptr, wr_ptr;
+            reg                 [ADDR_W-1 : 0]  rd_ptr_nxt, wr_ptr_nxt;
+            reg                                                     full_ff, empty_ff;
+            reg                                                     full_ff_nxt, empty_ff_nxt;
+            reg                                                     almst_f_ff, almst_e_ff;
+            reg                                                     almst_f_ff_nxt, almst_e_ff_nxt;
+            reg                 [ADDR_W : 0]        q_reg, q_nxt;
+            reg                                                     q_add, q_sub;
+//// ------------------------------------------------------------------------------------------------
+
+
+//// Always block to update the states
+//// ------------------------------------------------------------------------------------------------
+    always @ (posedge clk)
+        begin   :   reg_update
+            if(n_reset == 1'b 0)
+                begin
+                    rd_ptr &lt;= {(ADDR_W-1){1'b 0}};
+                    wr_ptr &lt;= {(ADDR_W-1){1'b 0}};
+                    full_ff &lt;= 1'b 0;
+                    empty_ff &lt;= 1'b 1;
+                    almst_f_ff &lt;= 1'b 0;
+                    almst_e_ff &lt;= 1'b 1;
+                    q_reg &lt;= {(ADDR_W){1'b 0}};
+                end
+            else
+                begin
+                    rd_ptr &lt;= rd_ptr_nxt;
+                    wr_ptr &lt;= wr_ptr_nxt;
+                    full_ff &lt;= full_ff_nxt;
+                    empty_ff &lt;= empty_ff_nxt;
+                    almst_f_ff &lt;= almst_f_ff_nxt;
+                    almst_e_ff &lt;= almst_e_ff_nxt;
+                    q_reg &lt;= q_nxt;
+                 end
+        end // end of always
+
+//// Control for almost full and almost emptly flags
+//// ------------------------------------------------------------------------------------------------
+    always @ ( almst_e_ff, almst_f_ff, q_reg)
+        begin   :   Wtr_Mrk_Cont
+            almst_e_ff_nxt = almst_e_ff;
+            almst_f_ff_nxt = almst_f_ff;                
+           //// check to see if wr_ptr is ALMST_E away from rd_ptr (aka almost empty)           
+            if(q_reg &lt; ALMST_E)
+                almst_e_ff_nxt = 1'b 1;
+            else
+                almst_e_ff_nxt = 1'b 0;
+
+            if(q_reg &gt; BUFF_L-ALMST_F)
+                almst_f_ff_nxt = 1'b 1;
+            else
+                almst_f_ff_nxt = 1'b 0;
+
+        end // end of always
+
+//// Control for read and write pointers and empty/full flip flops          
+    always @ (wr_en, rd_en, wr_ptr, rd_ptr, empty_ff, full_ff, q_reg)
+        begin
+
+            wr_ptr_nxt = wr_ptr ;                                           //// no change to pointers
+            rd_ptr_nxt = rd_ptr;
+            full_ff_nxt = full_ff;
+            empty_ff_nxt = empty_ff;
+            q_add = 1'b 0;
+            q_sub = 1'b 0;
+        ////---------- check if fifo is full during a write attempt, after a write increment counter
+        ////----------------------------------------------------            
+            if(wr_en == 1'b 1 &amp; rd_en == 1'b 0)
+                begin
+                    if(full_ff == 1'b 0)
+                        begin
+                            if(wr_ptr &lt; BUFF_L-1)                                   
+                                begin
+                                    q_add = 1'b 1;
+                                    wr_ptr_nxt = wr_ptr + 1;
+                                    empty_ff_nxt = 1'b 0;
+                                end
+                            else
+                                begin
+                                    wr_ptr_nxt = {(ADDR_W-1){1'b 0}};
+                                    empty_ff_nxt = 1'b 0;
+                                end
+                            //// check if fifo is full
+                            if( (wr_ptr+1 == rd_ptr) || ((wr_ptr == BUFF_L-1) &amp;&amp; (rd_ptr == 1'b 0)))   
+                                full_ff_nxt = 1'b 1;
+                        end
+                end
+
+        ////---------- check to see if fifo is empty during a read attempt, after a read decrement counter
+        ////---------------------------------------------------------------
+            if( (wr_en == 1'b 0) &amp;&amp; (rd_en == 1'b 1))
+                begin                   
+                    if(empty_ff == 1'b 0) 
+                        begin
+                            if(rd_ptr &lt; BUFF_L-1 )                                                  
+                                begin
+                                    if(q_reg &gt; 0)
+                                        q_sub = 1'b 1;
+                                    else
+                                        q_sub = 1'b 0;
+                                    rd_ptr_nxt = rd_ptr + 1;
+                                    full_ff_nxt = 1'b 0;
+                                end
+                            else    
+                                begin
+                                    rd_ptr_nxt = {(ADDR_W-1){1'b 0}}; 
+                                    full_ff_nxt = 1'b 0;        
+                                end
+
+                            //// check if fifo is empty
+                            if( (rd_ptr  + 1 == wr_ptr) || ((rd_ptr == BUFF_L -1) &amp;&amp; (wr_ptr == 1'b 0 )))  
+                                empty_ff_nxt = 1'b 1;
+                        end
+                end
+
+        //// -----------------------------------------------------------------
+            if( (wr_en == 1'b 1) &amp;&amp; (rd_en == 1'b 1)) 
+                begin
+                    if(wr_ptr &lt; BUFF_L -1) 
+                        wr_ptr_nxt = wr_ptr  + 1;   
+                    else                                            
+                        wr_ptr_nxt =  {(ADDR_W-1){1'b 0}}; 
+
+                    if(rd_ptr &lt; BUFF_L -1) 
+                        rd_ptr_nxt = rd_ptr + 1;        
+                    else
+                        rd_ptr_nxt = {(ADDR_W-1){1'b 0}}; 
+                end
+
+        end  // end of always
+
+
+//// Control for memory array writing and reading
+//// ----------------------------------------------------------------------
+    always @ (posedge clk)
+        begin       :       mem_cont
+            if( n_reset == 1'b 0)
+                begin
+                    mem_array[rd_ptr] &lt;=  {(DATA_W-1){1'b 0}}; 
+                    data_out &lt;= {(DATA_W-1){1'b 0}}; 
+                    err &lt;= 1'b 0;
+                end
+            else
+                begin
+                    ////  if write enable and not full then latch in data and increment wright pointer  
+                    if( (wr_en == 1'b 1) &amp;&amp; (full_ff == 1'b 0) )
+                        begin
+                            mem_array[wr_ptr] &lt;=  data_in;
+                            err &lt;= 1'b 0;                       
+                        end
+                    else if( (wr_en == 1'b 1) &amp;&amp; (full_ff == 1'b 1))      ////  check if full and trying to write
+                        err &lt;= 1'b 1;
+
+                    //// if read enable and fifo not empty then latch data out and increment read pointer
+                    if( (rd_en == 1'b 1) &amp;&amp; (empty_ff == 1'b 0))
+                        begin
+                            data_out &lt;= mem_array[rd_ptr];
+                            err &lt;= 1'b 0;
+                        end
+                    else if( (rd_en == 1'b 1) &amp;&amp; (empty_ff == 1'b 1))
+                        err &lt;= 1'b 1;
+
+                end // end else
+        end // end always
+
+
+//// Combo Counter with Control Flags
+//// ------------------------------------------------------------------------------------------------
+    always @ ( q_sub, q_add, q_reg)
+        begin   :   Counter
+            case( {q_sub , q_add} )
+                2'b 01 :
+                        q_nxt = q_reg + 1;
+                2'b 10 :
+                        q_nxt = q_reg - 1;
+                default :
+                        q_nxt = q_reg;
+            endcase     
+        end // end of always        
+
+//// Connect internal regs to ouput ports
+//// ------------------------------------------------------------------------------------------------
+    always @ (full_ff, empty_ff, almst_e_ff, almst_f_ff, q_reg)
+        begin
+            full = full_ff;
+            empty = empty_ff;
+            almst_empty = almst_e_ff; 
+            almst_full = almst_f_ff;
+            data_count = q_reg;
+        end
+
+endmodule
+
+
+</code></pre>
+<ol>
+<li><img alt="🙋‍♂️" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f64b-200d-2642-fe0f.svg" title=":man_raising_hand:" /> I'm a code annotation! I can contain <code>code</code>, <strong>formatted
+    text</strong>, images, ... basically anything that can be written in Markdown.</li>
+</ol>
+<pre><code class="language-mermaid">graph LR
+  A[Start] --&gt; B{Error?};
+  B --&gt;|Yes| C[Hmm...];
+  C --&gt; D[Debug];
+  D --&gt; B;
+  B ----&gt;|No| E[Yay!];
+</code></pre>
+<p>Text can be {--deleted--} and replacement text {++added++}. This can also be
+combined into {<del>one~&gt;a single</del>} operation. {<mark>Highlighting</mark>} is also
+possible {&gt;&gt;and comments can be added inline&lt;&lt;}.</p>
+<p>{==</p>
+<p>Formatting can also be applied to blocks by putting the opening and closing
+tags on separate lines and adding new lines between the tags and the content.</p>
+<p>==}</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33-1.06 1.06L14 12.4V8M2 18a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2H2m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2.05L5 12l.05 1H3m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2H4Z"/></svg></span> <strong>Set up in 5 minutes</strong></p>
+<hr />
+<p>Install <a href="#"><code>mkdocs-material</code></a> with <a href="#"><code>pip</code></a> and get up
+and running in minutes</p>
+<p><a href="#"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Getting started</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M593.8 59.1H46.2C20.7 59.1 0 79.8 0 105.2v301.5c0 25.5 20.7 46.2 46.2 46.2h547.7c25.5 0 46.2-20.7 46.1-46.1V105.2c0-25.4-20.7-46.1-46.2-46.1zM338.5 360.6H277v-120l-61.5 76.9-61.5-76.9v120H92.3V151.4h61.5l61.5 76.9 61.5-76.9h61.5v209.2zm135.3 3.1L381.5 256H443V151.4h61.5V256H566z"/></svg></span> <strong>It's just Markdown</strong></p>
+<hr />
+<p>Focus on your content and generate a responsive and searchable static site</p>
+<p><a href="#"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Reference</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 8h3v12h1v1h-4v-1h1v-3h-4l-1.5 3H14v1h-4v-1h1l6-12m1 1-3.5 7H18V9M5 3h5c1.11 0 2 .89 2 2v11H9v-5H6v5H3V5c0-1.11.89-2 2-2m1 2v4h3V5H6Z"/></svg></span> <strong>Made to measure</strong></p>
+<hr />
+<p>Change the colors, fonts, language, icons, logo and more with a few lines</p>
+<p><a href="#"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Customization</a></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3c-1.27 0-2.4.8-2.82 2H3v2h1.95L2 14c-.47 2 1 3 3.5 3s4.06-1 3.5-3L6.05 7h3.12c.33.85.98 1.5 1.83 1.83V20H2v2h20v-2h-9V8.82c.85-.32 1.5-.97 1.82-1.82h3.13L15 14c-.47 2 1 3 3.5 3s4.06-1 3.5-3l-2.95-7H21V5h-6.17C14.4 3.8 13.27 3 12 3m0 2a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m-6.5 5.25L7 14H4l1.5-3.75m13 0L20 14h-3l1.5-3.75Z"/></svg></span> <strong>Open Source, MIT</strong></p>
+<hr />
+<p>Material for MkDocs is licensed under MIT and available on [GitHub]</p>
+<p><a href="#"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> License</a></p>
+</li>
+</ul>
+</div>
+<p><img alt="😄" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/1f604.svg" title=":smile:" /></p>
+<div class="arithmatex">\[
+\operatorname{ker} f=\{g\in G:f(g)=e_{H}\}{\mbox{.}}
+\]</div>
+
+
+
+  
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.prune", "toc.integrate", "navigation.top", "search.suggest", "search.highlight", "search.share", "header.autohide", "announce.dismiss"], "search": "assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.aecac24b.min.js"></script>
+      
+    
+  </body>
+</html>
