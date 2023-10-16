@@ -10,8 +10,8 @@ nav:
         Core:
           Cpu: core/cpu.md
           Arithmetic Logic Unit:
-            Division: division.md
-            Multiplication: multiplication.md
+            Division: alu/division.md
+            Multiplication: alu/multiplication.md
           Compressed Decoder: core/compressed_decoder.md
           Control Unit: core/compressed_decoder.md
           Immediate Entend: core/extend.md
